@@ -20,23 +20,20 @@ import com.example.perpustakaan_app.uicontroller.route.catatan_denda.DestinasiCa
 import com.example.perpustakaan_app.uicontroller.route.peminjaman_buku.DestinasiPeminjamanBuku
 import com.example.perpustakaan_app.uicontroller.route.profil.DestinasiProfil
 
-// 1. Definisi Item Menu
 data class BottomNavItem(
     val label: String,
     val icon: ImageVector,
     val route: String
 )
 
-// 2. Daftar Menu Utama
 val listMenu = listOf(
     BottomNavItem("Buku", Icons.Default.Book, DestinasiBuku.route),
-    BottomNavItem("Anggota", Icons.Default.AccountCircle, DestinasiAnggota.route),
+    BottomNavItem("Anggota", Icons.Default.Person, DestinasiAnggota.route),
     BottomNavItem("Peminjaman", Icons.Default.DateRange, DestinasiPeminjamanBuku.route),
     BottomNavItem("Denda", Icons.Default.Warning, DestinasiCatatanDenda.route),
-    BottomNavItem("Profil", Icons.Default.Person, DestinasiProfil.route)
+    BottomNavItem("Profil", Icons.Default.AccountCircle, DestinasiProfil.route)
 )
 
-// 3. Komponen Bottom Bar
 @Composable
 fun PerpustakaanBottomAppBar(
     navController: NavHostController,
@@ -52,15 +49,11 @@ fun PerpustakaanBottomAppBar(
             NavigationBarItem(
                 selected = selected,
                 onClick = {
-                    // Navigasi ke tab yang dipilih
                     navController.navigate(item.route) {
-                        // Agar tidak menumpuk halaman saat bolak-balik (Pop Up ke halaman awal)
                         popUpTo(navController.graph.startDestinationId) {
                             saveState = true
                         }
-                        // Hindari membuat salinan halaman yang sama jika diklik lagi
                         launchSingleTop = true
-                        // Restore state (scroll position, dll)
                         restoreState = true
                     }
                 },
