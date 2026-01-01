@@ -20,6 +20,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.perpustakaan_app.uicontroller.route.anggota.DestinasiAnggota
+import com.example.perpustakaan_app.uicontroller.route.anggota.DestinasiEditAnggota
+import com.example.perpustakaan_app.uicontroller.route.anggota.DestinasiTambahAnggota
 import com.example.perpustakaan_app.uicontroller.route.buku.DestinasiBuku
 import com.example.perpustakaan_app.uicontroller.route.buku.DestinasiEditBuku
 import com.example.perpustakaan_app.uicontroller.route.buku.DestinasiTambahBuku
@@ -37,6 +39,8 @@ import com.example.perpustakaan_app.view.anggota.HalamanAnggota
 import com.example.perpustakaan_app.view.catatan_denda.HalamanCatatanDenda
 import com.example.perpustakaan_app.view.peminjaman_buku.HalamanPeminjamanBuku
 import com.example.perpustakaan_app.uicontroller.route.profil.DestinasiProfil
+import com.example.perpustakaan_app.view.anggota.HalamanEditAnggota
+import com.example.perpustakaan_app.view.anggota.HalamanTambahAnggota
 import com.example.perpustakaan_app.view.profil.HalamanProfil
 
 @Composable
@@ -167,12 +171,51 @@ fun PetaNavigasi(
 
                 // --- 3. RUTE ANGGOTA ---
                 composable(DestinasiAnggota.route) {
-                    // Pastikan HalamanAnggota sudah dibuat
                     HalamanAnggota(
-                        // Callback navigasi lain jika ada
-                        // onDetailClick = { ... }
+                        navController = navController,
+                        navigateToItemEntry = { navController.navigate(DestinasiTambahAnggota.route) },
+                        onEditClick = { id -> navController.navigate("${DestinasiEditAnggota.route}/$id") }
                     )
                 }
+                composable(DestinasiTambahAnggota.route) {
+                    HalamanTambahAnggota(
+                        navigateBack = {
+                            navController.popBackStack()
+                        },
+                        onSucces = {
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("refresh_data", true)
+
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("pesan_sukses", "Berhasil menambah data anggota!")
+
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                composable(DestinasiEditAnggota.routeWithArgs, arguments = listOf(navArgument(DestinasiEditAnggota.idAnggotaArg) {
+                    type = NavType.IntType
+                })) {
+                    HalamanEditAnggota(
+                        navigateBack = {
+                            navController.popBackStack()
+                        },
+                        onSuccess = {
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("refresh_data", true)
+
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("pesan_sukses", "Berhasil memperbarui data anggota!")
+
+                            navController.popBackStack()
+                        }
+                    )
+                }
+
 
                 // --- 4. RUTE PEMINJAMAN ---
                 composable(DestinasiPeminjamanBuku.route) {

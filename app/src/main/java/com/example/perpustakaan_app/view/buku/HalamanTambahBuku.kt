@@ -242,8 +242,7 @@ fun FormInputBuku(
             value = detailBuku.deskripsi,
             onValueChange = { onValueChange(detailBuku.copy(deskripsi = it)) },
             label = { Text("Deskripsi") },
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }

@@ -12,7 +12,7 @@ data class DataAnggota (
 
 data class UIStateAnggota (
     val detailAnggota: DetailAnggota = DetailAnggota(),
-    val isEntryValid: Boolean
+    val isEntryValid: Boolean = false
 )
 
 data class DetailAnggota (
