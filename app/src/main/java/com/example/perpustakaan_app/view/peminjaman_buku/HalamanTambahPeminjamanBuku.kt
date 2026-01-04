@@ -58,7 +58,9 @@ fun HalamanTambahPeminjamanBuku(
         }
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             val detail = viewModel.uiState.detailPeminjaman
@@ -71,10 +73,9 @@ fun HalamanTambahPeminjamanBuku(
                     viewModel.onAnggotaSelected(anggota)
                 },
                 itemToString = { it.nama }, // Cara ambil teks dari objek Anggota
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
 
             SearchableDropDownMenu(
                 options = viewModel.listBuku,
@@ -84,10 +85,8 @@ fun HalamanTambahPeminjamanBuku(
                     viewModel.onBukuSelected(buku)
                 },
                 itemToString = { it.judul }, // Cara ambil teks dari objek Buku
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
             )
-
-            Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedDateField(
                 value = detail.tanggal_pinjam,
@@ -95,10 +94,9 @@ fun HalamanTambahPeminjamanBuku(
                     viewModel.updateUiState(detail.copy(tanggal_pinjam = selectedDate))
                 },
                 label = "Tanggal Pinjam",
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedDateField(
                 value = detail.tanggal_jatuh_tempo,
@@ -106,10 +104,10 @@ fun HalamanTambahPeminjamanBuku(
                     viewModel.updateUiState(detail.copy(tanggal_jatuh_tempo = selectedDate))
                 },
                 label = "Tanggal Jatuh Tempo",
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Button(
                 onClick = {
